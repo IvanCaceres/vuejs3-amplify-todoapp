@@ -1,0 +1,12 @@
+type TodoList @model {
+  id: ID!
+  name: String!
+  tasks: [TodoItem]
+}
+
+type TodoItem {
+  value: String!
+  order: Int!
+  completed: Boolean
+  date: AWSDate
+}

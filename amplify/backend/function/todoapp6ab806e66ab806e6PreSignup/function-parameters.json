@@ -1,0 +1,16 @@
+{
+    "trigger": true,
+    "modules": [
+        "custom"
+    ],
+    "parentResource": "todoapp6ab806e66ab806e6",
+    "functionName": "todoapp6ab806e66ab806e6PreSignup",
+    "resourceName": "todoapp6ab806e66ab806e6PreSignup",
+    "parentStack": "auth",
+    "triggerEnvs": "[]",
+    "triggerDir": "C:\\Users\\ivann\\AppData\\Roaming\\npm\\node_modules\\@aws-amplify\\cli\\node_modules\\amplify-category-auth\\provider-utils\\awscloudformation\\utils/../triggers/PreSignup",
+    "triggerTemplate": "PreSignup.json.ejs",
+    "roleName": "todoapp6ab806e66ab806e6PreSignup",
+    "skipEdit": true,
+    "triggerEventPath": "PreSignup.event.json"
+}
