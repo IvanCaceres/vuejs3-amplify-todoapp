@@ -176,7 +176,7 @@ export default defineComponent({
 
 .todo-lists-wrap {
   height: 140px;
-  overflow-y: scroll;
+  overflow-y: auto;
   margin-top: var(--theme-padding);
   position: absolute;
   left: 0;
