@@ -50,6 +50,7 @@ export default createStore({
       try {
         const user = await Auth.signOut();
         commit('updateUser', null)
+        commit('updateTodoLists', [])
       } catch (error) {
         console.log('Error logging out', error);
         throw error;
