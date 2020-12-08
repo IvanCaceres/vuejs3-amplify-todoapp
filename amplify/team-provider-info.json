@@ -17,6 +17,12 @@
             },
             "function": {
                 "todoapp6ab806e66ab806e6PreSignup": {}
+            },
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d3v7szg7wkl6k8",
+                    "type": "manual"
+                }
             }
         }
     }

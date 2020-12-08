@@ -11,6 +11,8 @@
   .calendar-container
     .day(v-for="n in days", @click="pickDate(n)")
       .day-number {{ n }}
+      div.todo-lists-wrap(v-if="todoListDateMap[this.currentMonth] && todoListDateMap[this.currentMonth][n]")
+        div.todo-list(v-for="todoList in todoListDateMap[this.currentMonth][n]", @click="clickTodoList(todoList)") {{ todoList.name }}
 </template>
 
 <script lang="ts">
@@ -54,6 +56,13 @@ export default defineComponent({
       currentMonth: 1,
     } as any;
   },
+  props: {
+    todoLists: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
+  },
   emits: ["date-picked"],
   created() {
     this.currentMonth = this.currentDate.getMonth() + 1;
@@ -64,6 +73,28 @@ export default defineComponent({
     },
     month(): string {
       return MonthNames[this.currentMonth];
+    },
+    todoListDateMap(): any {
+      const dictionary: any = {};
+      for (const todoList of this.todoLists) {
+        if (todoList.date) {
+          const dateParts = todoList.date.split("-");
+          const month = dateParts[1];
+          const day = dateParts[2];
+
+          // key month top level
+          if (!dictionary[month]) {
+            dictionary[month] = {};
+          }
+
+          if (!dictionary[month][day]) {
+            dictionary[month][day] = [];
+          }
+
+          dictionary[month][day].push(todoList);
+        }
+      }
+      return dictionary;
     },
   },
   methods: {
@@ -99,6 +130,9 @@ export default defineComponent({
       }${this.currentMonth}-${day < 10 ? 0 : ""}${day}`;
       this.$emit("date-picked", dateString);
     },
+    clickTodoList(todoList: any) {
+      this.$router.push(`/panel/todos/view/${todoList.id}`);
+    },
   },
 });
 </script>
@@ -131,6 +165,8 @@ export default defineComponent({
   border: solid 1px var(--theme-border-color);
   flex-basis: 10%;
   box-sizing: border-box;
+  padding: var(--theme-padding);
+  height: 200px;
   cursor: pointer;
   font-weight: 800;
   &:hover {
@@ -138,7 +174,16 @@ export default defineComponent({
   }
 }
 
-.day-number {
+.todo-lists-wrap {
+  height: 140px;
+  overflow-y: scroll;
+  margin-top: var(--theme-padding);
+}
+
+.todo-list {
+  background: var(--theme-border-color);
+  margin-bottom: var(--theme-padding);
+  font-weight: 400;
   padding: var(--theme-padding);
 }
 </style>

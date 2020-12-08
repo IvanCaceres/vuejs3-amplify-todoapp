@@ -15,6 +15,10 @@ import debounce from "lodash/debounce";
 import TodoList from "@/components/TodoList.vue";
 import DatePicker from "@/components/DatePicker.vue";
 
+interface Methods {
+  submitToAPI: any;
+}
+
 export default defineComponent({
   name: "CreateTodoList",
   components: {
@@ -27,8 +31,7 @@ export default defineComponent({
       todoListName: "",
       selectedDate: "",
       todoTasks: [],
-      debouncedSubmitToAPI: debounce(this.submitToAPI, 800),
-    };
+    } as any;
   },
   watch: {
     todoListName() {
@@ -54,7 +57,7 @@ export default defineComponent({
     }
   },
   methods: {
-    submitToAPI() {
+    debouncedSubmitToAPI: debounce(function() {
       const todoList = {
         name: this.todoListName,
         // ISO 8601 date string
@@ -71,7 +74,7 @@ export default defineComponent({
         todoList.id = this.id;
         this.$store.dispatch("updateTodoList", { todoList });
       }
-    },
+    }, 600),
     onDatePicked(date: string) {
       this.selectedDate = date;
     },

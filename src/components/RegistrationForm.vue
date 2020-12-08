@@ -32,10 +32,14 @@ export default defineComponent({
         })
         .then((user: any) => {
           //log user in after registration
-          this.$store.dispatch("login", {
-            username: this.email,
-            password: this.password,
-          });
+          this.$store
+            .dispatch("login", {
+              username: this.email,
+              password: this.password,
+            })
+            .then(() => {
+              this.$router.push("/panel/todos");
+            });
         });
     },
   },

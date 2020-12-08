@@ -8,7 +8,7 @@
     |Add Todo List
 
   ul.todos-list
-    p.todos-cta(v-if="todos.length < 1") There are 0 Todo Lists. Add one to get started.
+    p.todos-cta(v-if="todoLists.length < 1") There are 0 Todo Lists. Add one to get started.
     li(v-else, v-for="todoList in todoLists", @click="goToList(todoList.id)") {{ todoList.name }}
       span(v-if="todoList.date") &nbsp;[{{ todoList.date }}]
 </template>
@@ -20,22 +20,7 @@ import { mapState } from "vuex";
 export default defineComponent({
   name: "TodoslView",
   data() {
-    return {
-      todos: [
-        {
-          name: "Superbowl Party Prep List",
-          date: "2/27/21",
-        },
-        {
-          name: "Camping Preparations",
-          date: "11/29/20",
-        },
-        {
-          name: "Finals Week",
-          date: "12/09/20",
-        },
-      ],
-    };
+    return {};
   },
   created() {
     this.$store.dispatch("fetchTodoLists");
