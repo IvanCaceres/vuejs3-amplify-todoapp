@@ -7,6 +7,7 @@ base-paper
       base-input(v-model="password", name="password", type="password", placeholder="Password", label="Password", ariaPlaceholder="Example: Your account password must be at least 8 characters.", autocomplete="new-password", required)
       base-input(v-model="confirmPassword", name="confirm-password", type="password", placeholder="Confirm Password", label="Confirm Password", ariaPlaceholder="Example: Confirm your password by re-entering.", autocomplete="new-password", required)
       base-button(name="Login", type="submit") Register
+      p.error {{registerError}}
 </template>
 
 <script lang="ts">
@@ -19,6 +20,7 @@ export default defineComponent({
       email: "",
       password: "",
       confirmPassword: "",
+      registerError: "",
     };
   },
   methods: {
@@ -30,16 +32,20 @@ export default defineComponent({
           password: this.password,
           confirmPassword: this.confirmPassword,
         })
-        .then((user: any) => {
-          //log user in after registration
-          this.$store
-            .dispatch("login", {
-              username: this.email,
-              password: this.password,
-            })
-            .then(() => {
-              this.$router.push("/panel/todos");
-            });
+        .then(({ outcome, error }: any) => {
+          if (error) {
+            this.registerError = outcome;
+          } else {
+            //log user in after registration
+            this.$store
+              .dispatch("login", {
+                username: this.email,
+                password: this.password,
+              })
+              .then(() => {
+                this.$router.push("/panel/todos");
+              });
+          }
         });
     },
   },
@@ -48,6 +54,10 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .registration-title {
+  text-align: center;
+}
+
+.error {
   text-align: center;
 }
 </style>

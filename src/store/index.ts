@@ -77,10 +77,16 @@ export default createStore({
           }
         });
 
-        return user;
+        return {
+          outcome: user,
+          error: false
+        };
       } catch (error) {
         console.log('Error with AWS Cognito User Creation.', error);
-        throw error;
+        return {
+          outcome: error.message,
+          error: true
+        }
       }
     },
     async getTodoList({ commit, state }, id) {
