@@ -166,9 +166,9 @@ export default defineComponent({
   flex-basis: 10%;
   box-sizing: border-box;
   padding: var(--theme-padding);
-  height: 200px;
   cursor: pointer;
   font-weight: 800;
+  position: relative;
   &:hover {
     background-color: var(--theme-primary-color);
   }
@@ -178,6 +178,9 @@ export default defineComponent({
   height: 140px;
   overflow-y: scroll;
   margin-top: var(--theme-padding);
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 
 .todo-list {
