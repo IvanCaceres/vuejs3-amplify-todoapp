@@ -16,12 +16,28 @@ export default defineComponent({
   components: {
     Calendar,
   },
+  props: {
+    value: {
+      type: String,
+      required: false,
+    },
+  },
   data() {
     return {
       dateString: "",
       calendarPopupVisible: false,
     };
   },
+  watch: {
+    value() {
+      if (this.value) {
+        this.dateString = this.value;
+      } else {
+        this.dateString = "";
+      }
+    },
+  },
+  emits: ["date-picked"],
   methods: {
     onFocus() {
       this.calendarPopupVisible = true;
@@ -31,7 +47,8 @@ export default defineComponent({
     },
     onDatePicked(date: string) {
       this.dateString = date;
-      console.log("date was picked!!!", date);
+      this.calendarPopupVisible = false;
+      this.$emit("date-picked", date);
     },
   },
 });

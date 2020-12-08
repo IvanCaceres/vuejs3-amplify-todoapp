@@ -3,50 +3,50 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateTodoList = /* GraphQL */ `
-  subscription OnCreateTodoList {
-    onCreateTodoList {
+  subscription OnCreateTodoList($owner: String!) {
+    onCreateTodoList(owner: $owner) {
       id
       name
+      date
       tasks {
         value
-        order
         completed
-        date
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateTodoList = /* GraphQL */ `
-  subscription OnUpdateTodoList {
-    onUpdateTodoList {
+  subscription OnUpdateTodoList($owner: String!) {
+    onUpdateTodoList(owner: $owner) {
       id
       name
+      date
       tasks {
         value
-        order
         completed
-        date
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteTodoList = /* GraphQL */ `
-  subscription OnDeleteTodoList {
-    onDeleteTodoList {
+  subscription OnDeleteTodoList($owner: String!) {
+    onDeleteTodoList(owner: $owner) {
       id
       name
+      date
       tasks {
         value
-        order
         completed
-        date
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;

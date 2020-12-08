@@ -3,7 +3,7 @@
   base-paper
     h1.create-todo-title Create Todo List
     base-input(v-model="todoListName", name="name", type="text", placeholder="Name this Todo List", label="Name", ariaPlaceholder="Example: Weekend Shopping", required)
-    date-picker(@focus="onFocus")
+    date-picker(:value="selectedDate", @date-picked="onDatePicked")
 
     h2 Tasks
     todo-list(:tasks="todoTasks", @add-todo="onAddTodo", @update-todo="onUpdateTodo", @update-todo-completed="onUpdateTodoCompleted")
@@ -11,6 +11,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import debounce from "lodash/debounce";
 import TodoList from "@/components/TodoList.vue";
 import DatePicker from "@/components/DatePicker.vue";
 
@@ -22,20 +23,59 @@ export default defineComponent({
   },
   data() {
     return {
+      id: "",
       todoListName: "",
-      selectedDate: new Date(),
+      selectedDate: "",
       todoTasks: [],
+      debouncedSubmitToAPI: debounce(this.submitToAPI, 800),
     };
   },
-  methods: {
-    onSelectDate(date: string) {
-      console.log("chose date", date);
+  watch: {
+    todoListName() {
+      this.debouncedSubmitToAPI();
     },
-    onFocus() {
-      console.log("date input focused");
+    selectedDate() {
+      this.debouncedSubmitToAPI();
+    },
+    todoTasks() {
+      this.debouncedSubmitToAPI();
+    },
+  },
+  created() {
+    if (this.$route.params.id) {
+      this.id = this.$route.params.id as string;
+      this.$store
+        .dispatch("getTodoList", this.$route.params.id)
+        .then(todoList => {
+          this.todoListName = todoList.name;
+          this.selectedDate = todoList.date;
+          this.todoTasks = todoList.tasks;
+        });
+    }
+  },
+  methods: {
+    submitToAPI() {
+      const todoList = {
+        name: this.todoListName,
+        // ISO 8601 date string
+        date: this.selectedDate ? this.selectedDate : null,
+        tasks: [...this.todoTasks],
+      } as any;
+      if (!this.id) {
+        this.$store
+          .dispatch("createTodoList", { todoList })
+          .then((todoListModel: any) => {
+            this.id = todoListModel.id;
+          });
+      } else {
+        todoList.id = this.id;
+        this.$store.dispatch("updateTodoList", { todoList });
+      }
+    },
+    onDatePicked(date: string) {
+      this.selectedDate = date;
     },
     onAddTodo(todo: string) {
-      console.log("createtodolist.vue add todo", todo);
       this.todoTasks = [
         ...this.todoTasks,
         {
@@ -54,7 +94,6 @@ export default defineComponent({
         }
         return todo;
       });
-      console.log("received a todo update", val, order);
     },
     onUpdateTodoCompleted({ completed, order }: any) {
       this.todoTasks = this.todoTasks.map((todo: any, index: number) => {

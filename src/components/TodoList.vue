@@ -1,20 +1,20 @@
 <template lang="pug">
 .todo-list-container
-  todo-list-item(:model-value="todo", type="create", placeholder="Create a new todo task...", @keyup.enter="addTodo", @todo-updated="createTodoUpdate($event)")
+  todo-list-item(:model-value="todo", type="create", placeholder="Create a new todo task...", @keyup.enter="addTodo", @add-todo="addTodo" @todo-updated="createTodoUpdate($event)")
 
   .list-items-container
     p(v-if="tasks.length < 1") No tasks added yet.
-    todo-list-item.list-item(v-for="(task, index) in tasks", :model-value="task.value", :completed="task.completed", :rounded="false", @todo-updated="todoTaskUpdate($event, index)", @todo-toggle-completed="todoToggleCompleted($event, index)")
+    todo-list-item.list-item(v-for="(task, index) in filteredTasks", :model-value="task.value", :completed="task.completed", :rounded="false", @todo-updated="todoTaskUpdate($event, index)", @todo-toggle-completed="todoToggleCompleted($event, index)")
 
     .status-footer
       .tasks-left
-        p {{ tasks.length }} tasks left
+        p {{ tasksLeft }} tasks left
       .filters-container
         base-button(:class="{active: currentFilter === 'all'}", name="filter-all-button" @click="chooseActiveFilter('all')") All
         base-button(:class="{active: currentFilter === 'active'}", name="filter-acive-button", @click="chooseActiveFilter('active')") Active
         base-button(:class="{active: currentFilter === 'completed'}", name="filter-completed-button", @click="chooseActiveFilter('completed')") Completed
-      .clear-completed
-        base-button(name="clear-completed-tasks") Clear Completed
+      //- .clear-completed
+      //-   base-button(name="clear-completed-tasks") Clear Completed
 </template>
 
 <script lang="ts">
@@ -44,24 +44,37 @@ export default defineComponent({
       todo: "",
     };
   },
+  computed: {
+    tasksLeft(): number {
+      return this.tasks.filter((task: any) => !task.completed).length;
+    },
+    filteredTasks(): Array<any> {
+      return this.tasks.filter((task: any) => {
+        if (this.currentFilter === "active") {
+          return !task.completed;
+        } else if (this.currentFilter === "completed") {
+          return task.completed;
+        } else {
+          return true;
+        }
+      });
+    },
+  },
   methods: {
     chooseActiveFilter(filter: string) {
       this.currentFilter = filter;
     },
     addTodo() {
-      console.log("todo list add todo", this.todo);
       this.$emit("add-todo", this.todo);
       this.todo = "";
     },
     createTodoUpdate(val: string) {
-      console.log("TodoList.vue model updated", val);
       this.todo = val;
     },
     todoTaskUpdate(val: string, order: number) {
       this.$emit("update-todo", { val, order });
     },
     todoToggleCompleted(completed: boolean, order: number) {
-      console.log("togoToggleCompleted", completed, order);
       this.$emit("update-todo-completed", { completed, order });
     },
   },

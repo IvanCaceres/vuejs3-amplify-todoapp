@@ -10,14 +10,14 @@ export const createTodoList = /* GraphQL */ `
     createTodoList(input: $input, condition: $condition) {
       id
       name
+      date
       tasks {
         value
-        order
         completed
-        date
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -29,14 +29,14 @@ export const updateTodoList = /* GraphQL */ `
     updateTodoList(input: $input, condition: $condition) {
       id
       name
+      date
       tasks {
         value
-        order
         completed
-        date
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -48,14 +48,14 @@ export const deleteTodoList = /* GraphQL */ `
     deleteTodoList(input: $input, condition: $condition) {
       id
       name
+      date
       tasks {
         value
-        order
         completed
-        date
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;

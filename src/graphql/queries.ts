@@ -7,14 +7,14 @@ export const getTodoList = /* GraphQL */ `
     getTodoList(id: $id) {
       id
       name
+      date
       tasks {
         value
-        order
         completed
-        date
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -28,14 +28,14 @@ export const listTodoLists = /* GraphQL */ `
       items {
         id
         name
+        date
         tasks {
           value
-          order
           completed
-          date
         }
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }

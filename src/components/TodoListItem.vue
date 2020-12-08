@@ -45,7 +45,12 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ["update:modelValue", "todo-updated", "todo-toggle-completed"],
+  emits: [
+    "update:modelValue",
+    "todo-updated",
+    "todo-toggle-completed",
+    "add-todo",
+  ],
   components: {
     BaseInput,
   },
@@ -55,25 +60,17 @@ export default defineComponent({
       todoContent: "",
     };
   },
-  created() {
-    console.log("todo list item created", this.modelValue);
-  },
   methods: {
     toggleCheckButton() {
       this.$emit("todo-toggle-completed", !this.completed);
     },
     onInput(val: string) {
-      // console.log("TodoListItem.vue receiving input event", val);
       this.todoContent = val;
-      console.log("after setting todoContent show:", this.todoContent);
       this.$emit("todo-updated", val);
     },
-    // submit() {
-    //   if (this.type !== "create") {
-    //     return;
-    //   }
-    //   this.$emit("keyup-enter");
-    // },
+    addTodo() {
+      this.$emit("add-todo");
+    },
   },
 });
 </script>

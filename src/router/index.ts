@@ -27,6 +27,10 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: 'create',
             component: () => import("@/components/CreateTodoList.vue")
+          },
+          {
+            path: 'view/:id',
+            component: () => import("@/components/CreateTodoList.vue")
           }
         ]
       },

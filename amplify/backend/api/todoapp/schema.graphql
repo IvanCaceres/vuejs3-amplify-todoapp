@@ -1,12 +1,11 @@
-type TodoList @model {
+type TodoList @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   name: String!
+  date: AWSDate
   tasks: [TodoItem]
 }
 
 type TodoItem {
   value: String!
-  order: Int!
   completed: Boolean
-  date: AWSDate
 }

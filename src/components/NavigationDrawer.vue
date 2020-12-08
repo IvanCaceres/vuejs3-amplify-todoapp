@@ -10,10 +10,26 @@
         fa.nav-icon(icon="calendar", type="fas")
         |Calendar
     li
-      router-link(:to="'/panel/logout'")
+      a(@click="logout")
         fa.nav-icon(icon="sign-out-alt", type="fas")
         |Logout
 </template>
+
+<script>
+import { defineComponent } from "vue";
+import Calendar from "@/components/Calendar.vue";
+
+export default defineComponent({
+  name: "DatePicker",
+  methods: {
+    logout() {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/");
+      });
+    },
+  },
+});
+</script>
 
 <style lang="scss">
 .navigation-drawer-container {

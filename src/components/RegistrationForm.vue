@@ -32,7 +32,6 @@ export default defineComponent({
         })
         .then((user: any) => {
           //log user in after registration
-          console.log("promise after registration", user);
           this.$store.dispatch("login", {
             username: this.email,
             password: this.password,

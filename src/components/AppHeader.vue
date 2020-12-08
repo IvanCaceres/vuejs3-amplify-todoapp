@@ -5,10 +5,6 @@
       source(srcset="@/assets/header1.webp" type="image/webp")
       //- alt="" accessibility indicates this content is only decoration to screen readers / non visual browsers
       img.header-background(src="@/assets/header1.jpg" alt="")
-  #nav
-    router-link(to="/") Home
-    router-link(to="/about") About
-  p HEADER
 </template>
 
 <script lang="ts">

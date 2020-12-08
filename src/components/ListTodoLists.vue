@@ -9,11 +9,13 @@
 
   ul.todos-list
     p.todos-cta(v-if="todos.length < 1") There are 0 Todo Lists. Add one to get started.
-    li(v-else, v-for="todo in todos") {{ todo.name }} [{{ todo.date }}]
+    li(v-else, v-for="todoList in todoLists", @click="goToList(todoList.id)") {{ todoList.name }}
+      span(v-if="todoList.date") &nbsp;[{{ todoList.date }}]
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { mapState } from "vuex";
 
 export default defineComponent({
   name: "TodoslView",
@@ -34,6 +36,15 @@ export default defineComponent({
         },
       ],
     };
+  },
+  created() {
+    this.$store.dispatch("fetchTodoLists");
+  },
+  computed: mapState(["todoLists"]),
+  methods: {
+    goToList(id: string) {
+      this.$router.push(`/panel/todos/view/${id}`);
+    },
   },
 });
 </script>

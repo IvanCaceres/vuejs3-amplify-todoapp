@@ -5,18 +5,18 @@
 export type CreateTodoListInput = {
   id?: string | null,
   name: string,
+  date?: string | null,
   tasks?: Array< TodoItemInput | null > | null,
 };
 
 export type TodoItemInput = {
   value: string,
-  order: number,
   completed?: boolean | null,
-  date?: string | null,
 };
 
 export type ModelTodoListConditionInput = {
   name?: ModelStringInput | null,
+  date?: ModelStringInput | null,
   and?: Array< ModelTodoListConditionInput | null > | null,
   or?: Array< ModelTodoListConditionInput | null > | null,
   not?: ModelTodoListConditionInput | null,
@@ -65,6 +65,7 @@ export type ModelSizeInput = {
 export type UpdateTodoListInput = {
   id: string,
   name?: string | null,
+  date?: string | null,
   tasks?: Array< TodoItemInput | null > | null,
 };
 
@@ -75,6 +76,7 @@ export type DeleteTodoListInput = {
 export type ModelTodoListFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
+  date?: ModelStringInput | null,
   and?: Array< ModelTodoListFilterInput | null > | null,
   or?: Array< ModelTodoListFilterInput | null > | null,
   not?: ModelTodoListFilterInput | null,
@@ -106,15 +108,15 @@ export type CreateTodoListMutation = {
     __typename: "TodoList",
     id: string,
     name: string,
+    date: string | null,
     tasks:  Array< {
       __typename: "TodoItem",
       value: string,
-      order: number,
       completed: boolean | null,
-      date: string | null,
     } | null > | null,
     createdAt: string,
     updatedAt: string,
+    owner: string | null,
   } | null,
 };
 
@@ -128,15 +130,15 @@ export type UpdateTodoListMutation = {
     __typename: "TodoList",
     id: string,
     name: string,
+    date: string | null,
     tasks:  Array< {
       __typename: "TodoItem",
       value: string,
-      order: number,
       completed: boolean | null,
-      date: string | null,
     } | null > | null,
     createdAt: string,
     updatedAt: string,
+    owner: string | null,
   } | null,
 };
 
@@ -150,15 +152,15 @@ export type DeleteTodoListMutation = {
     __typename: "TodoList",
     id: string,
     name: string,
+    date: string | null,
     tasks:  Array< {
       __typename: "TodoItem",
       value: string,
-      order: number,
       completed: boolean | null,
-      date: string | null,
     } | null > | null,
     createdAt: string,
     updatedAt: string,
+    owner: string | null,
   } | null,
 };
 
@@ -171,15 +173,15 @@ export type GetTodoListQuery = {
     __typename: "TodoList",
     id: string,
     name: string,
+    date: string | null,
     tasks:  Array< {
       __typename: "TodoItem",
       value: string,
-      order: number,
       completed: boolean | null,
-      date: string | null,
     } | null > | null,
     createdAt: string,
     updatedAt: string,
+    owner: string | null,
   } | null,
 };
 
@@ -196,18 +198,22 @@ export type ListTodoListsQuery = {
       __typename: "TodoList",
       id: string,
       name: string,
+      date: string | null,
       tasks:  Array< {
         __typename: "TodoItem",
         value: string,
-        order: number,
         completed: boolean | null,
-        date: string | null,
       } | null > | null,
       createdAt: string,
       updatedAt: string,
+      owner: string | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
+};
+
+export type OnCreateTodoListSubscriptionVariables = {
+  owner: string,
 };
 
 export type OnCreateTodoListSubscription = {
@@ -215,16 +221,20 @@ export type OnCreateTodoListSubscription = {
     __typename: "TodoList",
     id: string,
     name: string,
+    date: string | null,
     tasks:  Array< {
       __typename: "TodoItem",
       value: string,
-      order: number,
       completed: boolean | null,
-      date: string | null,
     } | null > | null,
     createdAt: string,
     updatedAt: string,
+    owner: string | null,
   } | null,
+};
+
+export type OnUpdateTodoListSubscriptionVariables = {
+  owner: string,
 };
 
 export type OnUpdateTodoListSubscription = {
@@ -232,16 +242,20 @@ export type OnUpdateTodoListSubscription = {
     __typename: "TodoList",
     id: string,
     name: string,
+    date: string | null,
     tasks:  Array< {
       __typename: "TodoItem",
       value: string,
-      order: number,
       completed: boolean | null,
-      date: string | null,
     } | null > | null,
     createdAt: string,
     updatedAt: string,
+    owner: string | null,
   } | null,
+};
+
+export type OnDeleteTodoListSubscriptionVariables = {
+  owner: string,
 };
 
 export type OnDeleteTodoListSubscription = {
@@ -249,14 +263,14 @@ export type OnDeleteTodoListSubscription = {
     __typename: "TodoList",
     id: string,
     name: string,
+    date: string | null,
     tasks:  Array< {
       __typename: "TodoItem",
       value: string,
-      order: number,
       completed: boolean | null,
-      date: string | null,
     } | null > | null,
     createdAt: string,
     updatedAt: string,
+    owner: string | null,
   } | null,
 };
